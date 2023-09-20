@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from 'react'; 
 
 function App() {
+  const [count, setCount] = useState(0); 
+
+
+
+  const generate = async () => {
+    return new Promise((resolve) => {
+      let i = 0; 
+      const incrementCount = () => {
+        setCount(prev => prev +1); 
+        i++; 
+
+        if( i< 5000000 ) {
+          requestAnimationFrame(incrementCount); 
+        } else {
+          resolve(); 
+        }
+      }; 
+      incrementCount(); 
+    })
+  }
+
+  const handleGenerateClick = async () => {
+    await generate(); 
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <input type="file" id="inputFile"/>
+     <button onClick={handleGenerateClick} >Generate</button>
+     <p>{count}</p>
+     <input type="text" />
     </div>
   );
 }
